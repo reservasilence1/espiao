@@ -236,21 +236,6 @@ var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false
   defer
 ></script>
 
-  <script>
-    var urlBackRedirect = 'https://espiaodezap.vercel.app/credito9/index.html'; // lembre-se de usar a url sem espaços
-    // não altere nada abaixo dessa linha
-    urlBackRedirect = urlBackRedirect = urlBackRedirect.trim() +
-            (urlBackRedirect.indexOf("?") > 0 ? '&' : '?') +
-            document.location.search.replace('?', '').toString();
-    history.pushState({}, "", location.href);
-    history.pushState({}, "", location.href);
-    window.onpopstate = function () {
-        setTimeout(function () {
-            location.href = urlBackRedirect;
-        }, 1);
-    };
-</script>
-
 
 
 <script>
