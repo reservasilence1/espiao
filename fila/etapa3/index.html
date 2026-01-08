@@ -96,78 +96,123 @@
     </style>
        <script src="/fila/etapa3/js/jquery-3.7.1.min.js"></script>
     <script>
-    //     document.addEventListener('DOMContentLoaded', fetchLocationAndUpdateContent);
+  // document.addEventListener('DOMContentLoaded', fetchLocationAndUpdateContent);
+  // async function fetchLocationAndUpdateContent() {
+  //   try {
+  //     const ipResponse = await fetch("https://ipapi.co/json/");
+  //     const ipData = await ipResponse.json();
+  //     const city = ipData.city;
+  //     const region_code = ipData.region_code;
+  //
+  //     const motelTextElement = document.querySelector('.motel');
+  //     if (motelTextElement) {
+  //       motelTextElement.textContent = `Localizado em ${city}, ${region_code}`;
+  //     }
+  //
+  //     const newIframeSrc = `https://www.google.com/maps/embed/v1/place?key=AIzaSyD1T-wct3ZaPmOHseqH1SjkiP5pAn4Pj3Y&q=Motel+${encodeURIComponent(city)}+${encodeURIComponent(region_code)}`;
+  //     const iframe = document.getElementById('customIframe');
+  //     if (iframe) {
+  //       iframe.src = newIframeSrc;
+  //     }
+  //
+  //     const cityNameElement = document.getElementById('city-name');
+  //     if (cityNameElement) {
+  //       cityNameElement.textContent = `${city}, ${region_code}`;
+  //     }
+  //
+  //   } catch (error) {
+  //     console.error('Ocorreu um erro:', error);
+  //   }
+  // }
 
-    //     async function fetchLocationAndUpdateContent() {
-    //         try {
-    //             // Chamada para a API de IP para obter a cidade e o código da região
-    //             const ipResponse = await fetch("https://ipapi.co/json/");
-    //             const ipData = await ipResponse.json();
-    //             const city = ipData.city;
-    //             const region_code = ipData.region_code;
+  jQuery(function ($) {
+    var city;
+    var region_code;
+    var processStarted = false; // mantido (mesmo não usado)
 
-    //             // Atualizar o texto com a classe .motel com o nome da cidade e região
-    //             const motelTextElement = document.querySelector('.motel');
-    //             if (motelTextElement) {
-    //                 motelTextElement.textContent = `Localizado em ${city}, ${region_code}`;
-    //             }
+    // Monta a URL do embed SEM deixar UTM/params extras entrarem
+    function buildMapsEmbedUrl(city, region) {
+      var base = "https://www.google.com/maps/embed/v1/place";
+      var u = new URL(base);
 
-    //             // Atualizar o iframe com o mapa baseado na localização (cidade + código da região)
-    //             const newIframeSrc = `https://www.google.com/maps/embed/v1/place?key=AIzaSyD1T-wct3ZaPmOHseqH1SjkiP5pAn4Pj3Y&q=Motel+${encodeURIComponent(city)}+${encodeURIComponent(region_code)}`;
-    //             const iframe = document.getElementById('customIframe');
-    //             if (iframe) {
-    //                 iframe.src = newIframeSrc;
-    //             }
+      // parâmetros permitidos do embed
+      u.searchParams.set("key", "AIzaSyD1T-wct3ZaPmOHseqH1SjkiP5pAn4Pj3Y");
+      u.searchParams.set("q", "Motel " + (city || "") + " " + (region || ""));
 
-    //             // Substituir "CIDADE" pelo nome da cidade e "REGIÃO" pelo código da região na seção de compartilhamentos
-    //             const cityNameElement = document.getElementById('city-name');
-    //             if (cityNameElement) {
-    //                 cityNameElement.textContent = `${city}, ${region_code}`;
-    //             }
+      // blindagem (remove qualquer lixo, caso algo tente adicionar)
+      ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "fbclid", "gclid"].forEach(function (k) {
+        u.searchParams.delete(k);
+      });
 
-    //         } catch (error) {
-    //             console.error('Ocorreu um erro:', error);
-    //         }
-    //     }
+      return u.toString();
+    }
 
-    //
-    jQuery(function($) {
-            var city; // Default location in case of error
-            var region_code; // Default region code in case of error
-            var processStarted = false; // Flag para controlar se o processo já foi iniciado
+    function updateUI(city, region_code) {
+      // Atualizar texto .motel
+      var motelTextElement = document.querySelector(".motel");
+      if (motelTextElement) {
+        motelTextElement.textContent = "Localizado em " + city + ", " + region_code;
+      }
 
-            // Fetch user location
-            $.get("https://ipinfo.io/json", function(response) {
-                console.log(response);
-                if (response && response.city) {
-                    city = response.city;
-                    region_code = response.region;
-                      // Atualizar o texto com a classe .motel com o nome da cidade e região
-                const motelTextElement = document.querySelector('.motel');
-                if (motelTextElement) {
-                    motelTextElement.textContent = `Localizado em ${city}, ${region_code}`;
-                }
+      // Atualizar cidade no compartilhamento
+      var cityNameElement = document.getElementById("city-name");
+      if (cityNameElement) {
+        cityNameElement.textContent = city + ", " + region_code;
+      }
 
-                // Atualizar o iframe com o mapa baseado na localização (cidade + código da região)
-                const newIframeSrc = `https://www.google.com/maps/embed/v1/place?key=AIzaSyD1T-wct3ZaPmOHseqH1SjkiP5pAn4Pj3Y&q=Motel+${encodeURIComponent(city)}+${encodeURIComponent(region_code)}`;
-                const iframe = document.getElementById('customIframe');
-                if (iframe) {
-                    iframe.src = newIframeSrc;
-                }
+      // Atualizar iframe do mapa
+      var iframe = document.getElementById("customIframe");
+      if (iframe) {
+        var safeSrc = buildMapsEmbedUrl(city, region_code);
 
-                // Substituir "CIDADE" pelo nome da cidade e "REGIÃO" pelo código da região na seção de compartilhamentos
-                const cityNameElement = document.getElementById('city-name');
-                if (cityNameElement) {
-                    cityNameElement.textContent = `${city}, ${region_code}`;
-                }
+        // setAttribute pra evitar que scripts reconstruam a url
+        iframe.setAttribute("src", safeSrc);
 
-                }
-            }, "json");
+        // reforço (caso algum script injete utm logo depois)
+        setTimeout(function () { iframe.setAttribute("src", safeSrc); }, 50);
+        setTimeout(function () { iframe.setAttribute("src", safeSrc); }, 250);
 
-            console.log("userLoc",userLocation);
-        })
+        // trava: se alguém tentar colocar utm_ no src, volta pro seguro
+        try {
+          var obs = new MutationObserver(function () {
+            var current = iframe.getAttribute("src") || "";
+            if (current.indexOf("utm_") !== -1 || current.indexOf("fbclid=") !== -1 || current.indexOf("gclid=") !== -1) {
+              iframe.setAttribute("src", safeSrc);
+            }
+          });
+          obs.observe(iframe, { attributes: true, attributeFilter: ["src"] });
+        } catch (e) {
+          // MutationObserver pode falhar em casos raros; ignora
+        }
+      }
+    }
 
-    </script>
+    // Fetch user location
+    $.get(
+      "https://ipinfo.io/json",
+      function (response) {
+        console.log(response);
+
+        if (response && response.city) {
+          city = response.city;
+          region_code = response.region || response.region_code || "BR";
+          updateUI(city, region_code);
+        } else {
+          // fallback
+          updateUI("Joinville", "SC");
+        }
+      },
+      "json"
+    ).fail(function () {
+      // fallback se ipinfo falhar
+      updateUI("Joinville", "SC");
+    });
+
+    // FIX: removido (estava dando ReferenceError)
+    // console.log("userLoc", userLocation);
+  });
+</script>
+
 
 
     <!-- Contêiner para centralizar o iframe -->
