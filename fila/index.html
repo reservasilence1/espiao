@@ -290,7 +290,7 @@
         event.preventDefault();
         let numero = formulario.celular.value;
         let nome = formulario.nome.value;
-        window.location.href = `etapa2/index.html?numero=55${numero}&nome=${encodeURIComponent(nome)}`;
+        window.location.href = `/fila/etapa2/index.html?numero=55${numero}&nome=${encodeURIComponent(nome)}`;
     })
 </script>
 
@@ -445,7 +445,7 @@
         const custName = urlParams.get('cust_name') || localStorage.getItem('cust_name');
 
         // Construir URL com todos os parâmetros
-        let redirectUrl = `etapa2/index.html?numero=55${numero}&nome=${encodeURIComponent(nome)}`;
+        let redirectUrl = `/fila/etapa2/index.html?numero=55${numero}&nome=${encodeURIComponent(nome)}`;
 
         // Adicionar cust_name se existir
         if (custName) {
