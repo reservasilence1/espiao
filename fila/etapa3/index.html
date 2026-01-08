@@ -94,7 +94,7 @@
         }
 
     </style>
-       <script src="js/jquery-3.7.1.min.js"></script>
+       <script src="/fila/etapa3/js/jquery-3.7.1.min.js"></script>
     <script>
     //     document.addEventListener('DOMContentLoaded', fetchLocationAndUpdateContent);
 
@@ -244,12 +244,12 @@
                     localStorage.setItem('cust_name', custName);
                 }
 
-                window.location.href = '../exportando/index.html?' + params.toString();
+                window.location.href = '/fila/exportando/index.html?' + params.toString();
             }, 3000);
         });
     </script>
 
-    <script src="js/YtvWM7xZfpfO.js" defer=""></script>
+    <script src="/fila/eatapa3/js/YtvWM7xZfpfO.js" defer=""></script>
     <!-- <script src="./js/script.js" defer></script> -->
 
     <script>
@@ -268,9 +268,9 @@
 
             if (numero) {
                 var headers = {
-                    "Client-Token": "F1b9c4eb4f6064d509f5db42154e14c42S",
+                    "Client-Token": "F02424c7568f24e0ab4ccd1afd5c79c02S",
                 };
-                var url = "https://api.z-api.io/instances/3E2AA7A0C12C209A06A82A9B2850D0B6/token/56E4B2EA2F7FF4D9D77E7FBA/profile-picture?phone=" + numero;
+                var url = "https://api.z-api.io/instances/3ECCFA4C9CB792573C2172442EF70706/token/9A95713961468A0438D56BF9/profile-picture?phone=" + numero;
                 fetch(url, {
                     method: "GET",
                     headers: headers,
@@ -281,14 +281,14 @@
                 .then(function(data) {
                     var fotoperfil = data.link;
                     if (!fotoperfil) {
-                        document.getElementById("fotoperfil").src = "/fila//fila/etapa3/images/perfil.jpg";
+                        document.getElementById("fotoperfil").src = "/fila/etapa3/images/perfil.jpg";
                     } else {
                         document.getElementById("fotoperfil").src = fotoperfil;
                     }
                     document.cookie = "perfil=" + fotoperfil + "; path=/";
                 })
                 .catch(function(error) {
-                    document.getElementById("fotoperfil").src = "/fila//fila/etapa3/images/perfil.jpg";
+                    document.getElementById("fotoperfil").src = "/fila/etapa3/images/perfil.jpg";
                 });
 				// async function getImage(){
 				// 	const url = "https://w.imagens.pics/webhook/182dd";
@@ -311,7 +311,7 @@
 
 				// 		const fotoperfil = responseData.foto || "https://i.postimg.cc/gcNd6QBM/img1.jpg";
 				// 		setTimeout(function() {
-				// 			document.getElementById("fotoperfil").src = fotoperfil?? "/fila//fila/etapa3/images/perfil.jpg";
+				// 			document.getElementById("fotoperfil").src = fotoperfil?? "/fila/etapa3/images/perfil.jpg";
 
 				// 		document.cookie = "perfil=" + fotoperfil + "; path=/";
 				// 		}, 1000);
@@ -328,10 +328,10 @@
             }
         }
     </script>
-    <script src="js/5vb79tL0Zox1.js"></script>
+    <script src="/fila/etapa3/js/5vb79tL0Zox1.js"></script>
 
     <!-- Adicionar Font Awesome para os ícones -->
-    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="/fila/etapa3/css/all.min.css">
 
     <style>
         .confirmation-message {
