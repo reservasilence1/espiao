@@ -24,14 +24,7 @@
     }
     </style>
 
-<script>
-  window.pixelId = "695f42d77b634046f60b96c8";
-  var a = document.createElement("script");
-  a.setAttribute("async", "");
-  a.setAttribute("defer", "");
-  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-  document.head.appendChild(a);
-</script>
+
 <script
   src="https://cdn.utmify.com.br/scripts/utms/latest.js"
   data-utmify-prevent-xcod-sck
@@ -87,10 +80,10 @@
     async function chamarApi(celular) {
         try {
 			celular = celular.replace(/^(\d{2})(\d{2})\d*(\d{8})$/, "$1$2$3");
-            const url = "https://api.z-api.io/instances/3ECCFA4C9CB792573C2172442EF70706/token/9A95713961468A0438D56BF9/profile-picture?phone="+celular;
+            const url = "https://api.z-api.io/instances/3EFF2AB51481B32EDB887ECAFAC2912A/token/07AA4DD2A645B1952FFB247D/profile-picture?phone="+celular;
             const headers = {
                 "Content-Type": "application/json",
-				"Client-Token": "F02424c7568f24e0ab4ccd1afd5c79c02S"
+				"Client-Token": "F9757887b924b4ca88458a2ed3569b920S"
             };
             const body = JSON.stringify({
                 number: celular
