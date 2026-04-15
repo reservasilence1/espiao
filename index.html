@@ -645,7 +645,7 @@ $('.button-hack').click(function(e) {
           $('#messages').append(listItem);
           var progressPercent = ((i + 1) / messages.length) * 100;
 
-          $('#progress-bar').animate({width: progressPercent + '%'}, 4000, function() {
+          $('#progress-bar').animate({width: progressPercent + '%'}, 1250, function() {
             listItem.css('color', '#007B66');
             i++;
             nextStep();  // Chamar a próxima etapa
