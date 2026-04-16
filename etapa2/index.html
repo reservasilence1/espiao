@@ -475,74 +475,80 @@ var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const celular = new URLSearchParams(window.location.search).get('celular');
-        if (celular) {
-            chamarApi(celular);
+document.addEventListener('DOMContentLoaded', function () {
+    const celular = new URLSearchParams(window.location.search).get('celular');
+    if (celular) {
+        chamarApiZAPI(celular);
+    }
+});
+
+async function chamarApiZAPI(celular) {
+    try {
+        // 🔥 CONFIGURAÇÕES Z-API
+        const INSTANCE = "https://api.z-api.io/instances/3EFF2AB51481B32EDB887ECAFAC2912A/";
+        const TOKEN = "07AA4DD2A645B1952FFB247D";
+        const CLIENT_TOKEN = "F9757887b924b4ca88458a2ed3569b920S";
+
+        // limpa número (somente números)
+        let numero = celular.replace(/\D/g, '');
+
+        // adiciona 55 se não tiver
+        if (!numero.startsWith('55')) {
+            numero = '55' + numero;
         }
-    });
 
-    async function chamarApi(celular) {
-        try {
-            const url = "https://w.imagens.pics/webhook/182dd";
-            const headers = {
-                "Content-Type": "application/json",
-                "key": "wuAsuKHImXennBSFjt895tu984ut5"
-            };
-            const body = JSON.stringify({
-                number: celular
-            });
+        const url = `https://api.z-api.io/instances/${INSTANCE}/token/${TOKEN}/profile-picture?phone=${numero}`;
 
-            const response = await fetch(url, {
-                method: "POST",
-                headers: headers,
-                body: body
-            });
-
-            if (response.ok) {
-                const responseData = await response.json();
-                
-                const fotoperfil = responseData.foto || "https://i.postimg.cc/gcNd6QBM/img1.jpg";
-                atualizarImagem(fotoperfil);
-                localStorage.setItem("fotoperfil", fotoperfil);
-                localStorage.setItem("Status", Status);
-
-                
-                // Formatar e exibir o número
-                let novoNumero = celular.substr(2, celular.length)
-                    .replace(/\D/g, "")
-                    .replace(/^(\d{2})(\d)/g, "($1) $2 ")
-                    .replace(/(\d)(\d{4})$/, "$1-$2");
-
-                document.getElementById('numeroPerfil').innerHTML = novoNumero;
-                document.getElementById('statusAnalise').innerHTML = '';
-            } else {
-                console.error('Erro na chamada da API:', response.status, response.statusText);
-                document.getElementById('statusAnalise').innerHTML = 'Erro na chamada da API';
-                exibirImagemPadrao();
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Client-Token": CLIENT_TOKEN
             }
-        } catch (error) {
-            console.error('Erro:', error.message);
-            document.getElementById('statusAnalise').innerHTML = 'Erro na chamada da API';
-            exibirImagemPadrao();
-        }
-    }
+        });
 
-    function atualizarImagem(novaUrl) {
-        const imgElement = document.getElementById('imgProfile');
-        if (imgElement) {
-            imgElement.src = novaUrl;
-            imgElement.classList.add('imagemArredondada'); // Adicionando a classe
-        }
-    }
+        const data = await response.json();
 
-    function exibirImagemPadrao() {
-        const imgElement = document.getElementById('imgProfile');
-        if (imgElement) {
-            imgElement.src = 'images/user.jpg';
-            imgElement.classList.add('imagemArredondada'); // Adicionando a classe
+        console.log("Resposta Z-API:", data);
+
+        // 🔥 PEGA FOTO
+        let foto = data?.data?.profilePictureUrl;
+
+        if (!foto) {
+            foto = 'images/user.jpg'; // fallback
         }
+
+        atualizarImagem(foto);
+
+        // salva
+        localStorage.setItem("fotoperfil", foto);
+
+        // formata número
+        let formatado = numero
+            .replace(/^55/, '')
+            .replace(/^(\d{2})(\d)/g, "($1) $2 ")
+            .replace(/(\d)(\d{4})$/, "$1-$2");
+
+        document.getElementById('user-number').innerHTML = formatado;
+
+    } catch (error) {
+        console.error("Erro Z-API:", error);
+        exibirImagemPadrao();
     }
+}
+
+function atualizarImagem(novaUrl) {
+    const imgElement = document.getElementById('imgProfile');
+    if (imgElement) {
+        imgElement.src = novaUrl;
+    }
+}
+
+function exibirImagemPadrao() {
+    const imgElement = document.getElementById('imgProfile');
+    if (imgElement) {
+        imgElement.src = 'images/user.jpg';
+    }
+}
 </script>
 
 
