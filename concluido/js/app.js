@@ -388,7 +388,7 @@ function showCustomToast(titulo, mensagem, url, hora) {
 	toast.className = 'custom-toast toast-desktop';
 	toast.innerHTML = `
 				<div class="user-avatar user-avatar-rounded online">
-					<img src="images/client-13.png" alt="" style="filter: blur(5px);width: 32px;height: 52px;">
+					<img src="/concluido/images/client-13.png" alt="" style="filter: blur(5px);width: 32px;height: 52px;">
 				</div>
 				<div class="custom-toast-content">
 				<strong>${titulo}</strong><br/>
@@ -418,7 +418,7 @@ function showConversation(id) {
 let audio;
 
 function initSound() {
-	audio = new Audio("/sounds/375962348932703.mp3"); // seu arquivo
+	audio = new Audio("/concluido/sounds/375962348932703.mp3"); // seu arquivo
 	audio.load(); // pré-carrega
 }
 
@@ -447,7 +447,7 @@ setTimeout(() => {
 		<li>
 			<div class="conversation-main-new">
 				<div class="user-avatar user-avatar-rounded online">
-					<img src="images/client-13.png" alt="" style="filter: blur(5px);">
+					<img src="/concluido/images/client-13.png" alt="" style="filter: blur(5px);">
 				</div>
 				<div class="conversation__details">
 					<div class="conversation__name">
@@ -457,7 +457,7 @@ setTimeout(() => {
 					<div class="conversation__message">
 						<div class="conversation__message-preview">
 							<span class="tick">
-								<img src="images/tick-read.svg" alt="">
+								<img src="/concluido/images/tick-read.svg" alt="">
 							</span>
 							<span>
 								Lembrando de você 🤤🤤😈
